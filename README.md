@@ -125,7 +125,13 @@ La página muestra "✔ Frontend → Backend → Base de datos: conectado" junto
 
 ### 3.4 Aislamiento de redes (adicional)
 
-![Ping del frontend a db fallido](evidencias/06-aislamiento.png)
+El frontend **no** puede resolver el nombre `db` porque no pertenece a `backend-net`:
+
+![Ping del frontend a db fallido](evidencias/06a-ping-db.png)
+
+El frontend **sí** alcanza al backend a través de `frontend-net`:
+
+![wget del frontend al backend](evidencias/06b-wget-backend.png)
 
 ## Estructura del proyecto
 

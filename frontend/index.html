@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab 2 - Docker Compose</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 16px; background: #f4f6f9; color: #222; }
+    h1 { color: #1d63ed; }
+    .card { background: #fff; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,.1); }
+    .ok { color: #1a7f37; font-weight: bold; }
+    .err { color: #cf222e; font-weight: bold; }
+    form { display: flex; gap: 8px; }
+    input { flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+    button { padding: 8px 16px; background: #1d63ed; color: #fff; border: 0; border-radius: 4px; cursor: pointer; }
+    li { padding: 6px 0; border-bottom: 1px solid #eee; }
+    small { color: #666; }
+  </style>
+</head>
+<body>
+  <h1>Aplicación Corporativa - Lab 2</h1>
+
+  <div class="card">
+    <h2>Estado del sistema</h2>
+    <p id="estado">Consultando backend...</p>
+    <small id="version"></small>
+  </div>
+
+  <div class="card">
+    <h2>Nuevo registro</h2>
+    <form id="form">
+      <input id="mensaje" placeholder="Escribe un mensaje" required>
+      <button type="submit">Guardar</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Registros guardados en PostgreSQL</h2>
+    <ul id="lista"></ul>
+  </div>
+
+  <script>
+    async function verificarEstado() {
+      const estado = document.getElementById('estado');
+      try {
+        const r = await fetch('/api/health');
+        const d = await r.json();
+        if (d.status === 'ok') {
+          estado.innerHTML = '<span class="ok">✔ Frontend → Backend → Base de datos: conectado</span>';
+          document.getElementById('version').textContent = d.database;
+        } else {
+          estado.innerHTML = '<span class="err">✘ Error: ' + d.detalle + '</span>';
+        }
+      } catch (e) {
+        estado.innerHTML = '<span class="err">✘ No se pudo contactar al backend</span>';
+      }
+    }
+
+    async function cargarRegistros() {
+      const r = await fetch('/api/registros');
+      const datos = await r.json();
+      const lista = document.getElementById('lista');
+      lista.innerHTML = '';
+      if (datos.length === 0) {
+        lista.innerHTML = '<li><small>No hay registros todavía.</small></li>';
+      }
+      for (const reg of datos) {
+        const li = document.createElement('li');
+        li.innerHTML = '<b>#' + reg.id + '</b> ';
+        li.append(reg.mensaje);
+        const fecha = document.createElement('small');
+        fecha.textContent = '  (' + new Date(reg.creado_en).toLocaleString() + ')';
+        li.append(fecha);
+        lista.append(li);
+      }
+    }
+
+    document.getElementById('form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const input = document.getElementById('mensaje');
+      await fetch('/api/registros', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mensaje: input.value })
+      });
+      input.value = '';
+      cargarRegistros();
+    });
+
+    verificarEstado();
+    cargarRegistros();
+  </script>
+</body>
+</html>

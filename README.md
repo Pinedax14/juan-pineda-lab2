@@ -106,7 +106,7 @@ Procedimiento:
 
 También se puede comprobar directamente en la base de datos:
 ```bash
-docker compose exec db psql -U lab2user -d lab2db -c "SELECT * FROM registros;"
+docker compose exec db sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "SELECT * FROM registros;"'
 ```
 
 **Antes del `down`:** el registro `#1 hola` ya estaba guardado (ver captura de la sección 3.3).

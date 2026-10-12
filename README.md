@@ -1,6 +1,6 @@
 # Laboratorio 2: Despliegue y Redes de una Arquitectura Multi-Servicio con Docker Compose
 
-**Estudiante:** _(tu nombre)_
+**Estudiante:** Juan Felipe Pineda Cardona
 **Asignatura:** Ingeniería de Sistemas / DevOps con Docker
 
 ## 1. Arquitectura
@@ -80,8 +80,8 @@ docker compose down -v
 
 ```bash
 docker network ls
-docker network inspect nombre-estudiante-lab2_frontend-net
-docker network inspect nombre-estudiante-lab2_backend-net
+docker network inspect laboratio-2_frontend-net
+docker network inspect laboratio-2_backend-net
 
 # El frontend NO puede resolver la base de datos (debe fallar):
 docker compose exec frontend ping -c 2 db
@@ -136,7 +136,7 @@ El frontend **sí** alcanza al backend a través de `frontend-net`:
 ## Estructura del proyecto
 
 ```
-nombre-estudiante-lab2/
+laboratio-2/
 ├── .env.example          # Plantilla de variables (sin contraseñas reales)
 ├── .gitignore            # Excluye .env del repositorio
 ├── docker-compose.yml    # Orquestación: 3 servicios, 2 redes, 1 volumen

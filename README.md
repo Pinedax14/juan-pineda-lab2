@@ -110,7 +110,9 @@ docker compose exec db psql -U lab2user -d lab2db -c "SELECT * FROM registros;"
 ```
 
 ![Registros antes del down](evidencias/02-antes-down.png)
-![Comandos down / up](evidencias/03-down-up.png)
+![docker compose down](evidencias/03a-down.png)
+![docker compose up -d](evidencias/03b-up.png)
+![Consulta SQL tras reiniciar](evidencias/03c-select.png)
 ![Registros después del up](evidencias/04-despues-up.png)
 
 ### 3.3 Frontend comunicándose con el backend

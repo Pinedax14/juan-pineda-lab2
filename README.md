@@ -109,7 +109,9 @@ También se puede comprobar directamente en la base de datos:
 docker compose exec db psql -U lab2user -d lab2db -c "SELECT * FROM registros;"
 ```
 
-![Registros antes del down](evidencias/02-antes-down.png)
+**Antes del `down`:** el registro `#1 hola` ya estaba guardado (ver captura de la sección 3.3).
+
+![Registros antes del down](evidencias/05-navegador.png)
 ![docker compose down](evidencias/03a-down.png)
 ![docker compose up -d](evidencias/03b-up.png)
 ![Consulta SQL tras reiniciar](evidencias/03c-select.png)
